@@ -1,7 +1,5 @@
 import hashlib
 from global_variables import *
-from mapper import *
-from reducer import *
 import os 
 
 def hash(word):
@@ -24,13 +22,3 @@ def read_text_files(input_directory):
                     file_content = text_file.read()
                     all_text += file_content
     return all_text
-print(read_text_files(INPUT_DIR))
-
-
-def map_task(input, reduce_queues):
-    mapper = Mapper(input, reduce_queues)
-    mapper.map()
-
-def reduce_task(reduce_queue, final_output, output_file=OUTPUT_FILE):
-    reducer = Reducer(reduce_queue, final_output, output_file)
-    reducer.reduce()

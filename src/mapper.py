@@ -1,6 +1,6 @@
 from global_variables import *
 import re
-from utils import *
+from utils import hash
 class Mapper:
     def __init__(self, input, reduce_queues):
         self.input = input

@@ -10,11 +10,12 @@ class Reducer:
         while True:
             if self.complete == NUM_MAPPERS:
                 break
-            item = self.reducer_queue.get()
+            item = self.reduce_queue.get()
             if item is None:  # EOF message
                 self.complete += 1
-            word, count = item
-            self.final_output[word] = self.final_output.get(word, 0) + count
+            else:
+                word, count = item
+                self.final_output[word] = self.final_output.get(word, 0) + count
         with open(self.output_file, 'w') as file:
             for word, count in self.final_output.items():
                 file.write(f"{word}: {count}\n")
