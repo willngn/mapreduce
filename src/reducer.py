@@ -1,12 +1,12 @@
 from global_variables import *
 class Reducer:
-    def __init__(self, mapper_output, result_queue):
-        self.mapper_output = mapper_output
-        self.result_queue = result_queue
+    def __init__(self, reduce_queue, final_output, output_file):
+        self.reduce_queue = reduce_queue
+        self.final_output = final_output
+        self.output_file = output_file
         self.complete = 0
 
     def reduce(self):
-        counter = {}
         while True:
             if self.complete == NUM_MAPPERS:
                 break
@@ -14,5 +14,7 @@ class Reducer:
             if item is None:  # EOF message
                 self.complete += 1
             word, count = item
-            counter[word] = counter.get(word, 0) + count
-        self.result_queue.put(counter)
+            self.final_output[word] = self.final_output.get(word, 0) + count
+        with open(self.output_file, 'w') as file:
+            for word, count in self.final_output.items():
+                file.write(f"{word}: {count}\n")
